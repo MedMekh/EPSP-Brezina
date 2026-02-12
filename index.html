@@ -13,7 +13,7 @@
     
     <style>
         /* ===== متغيرات الألوان والتأثيرات ===== */
-        :root {
+  /*      :root {
             --primary-dark: #0a4275;
             --primary: #0d47a1;
             --primary-light: #1565c0;
@@ -25,9 +25,9 @@
             --accent-red: #d32f2f;
             --accent-red-light: #ef5350;
             --accent-purple: #8e24aa;      /* أرجواني للمرأة */
-            --accent-purple-light: #ba68c8;
+      /*      --accent-purple-light: #ba68c8;
             --accent-pink: #ec407a;        /* وردي */
-            --gray-bg: #f8fafc;
+    /*        --gray-bg: #f8fafc;
             --gray-card: #ffffff;
             --shadow-sm: 0 8px 20px rgba(0,0,0,0.06);
             --shadow-md: 0 12px 30px rgba(0,0,0,0.1);
@@ -933,36 +933,24 @@
             transform: translateY(-2px);
         }
 
-        /* ===== نافذة رمضان ===== */
-        .ramadan-modal .ramadan-content {
-            background: linear-gradient(145deg, #fef9e7, #fffbee);
-            border: 6px solid #ffb74d;
-            border-radius: 40px;
-            box-shadow: var(--shadow-lg);
-        }
+            /* ----- نافذة رمضان ----- */
+            const ramadanModal = document.getElementById('ramadan-modal');
+            const closeRamadan = document.querySelector('.close-ramadan');
 
-        .ramadan-content h2 {
-            color: #bf360c;
-            font-size: 2.2rem;
-        }
+            if (ramadanModal) {
+                setTimeout(function() {
+                    ramadanModal.style.display = 'block';
+                }, 500);
+            }
 
-        .ramadan-btn {
-            background: linear-gradient(145deg, #ff9800, #f57c00);
-            border: none;
-            border-radius: 50px;
-            padding: 14px 35px;
-            font-size: 1.2rem;
-            font-weight: 700;
-            transition: var(--transition);
-        }
-
-        .ramadan-btn:hover {
-            transform: scale(1.05);
-            background: linear-gradient(145deg, #f57c00, #e65100);
-        }
-
+            if (closeRamadan) {
+                closeRamadan.addEventListener('click', function() {
+                    ramadanModal.style.display = 'none';
+                });
+           }
+        
         /* ===== نافذة اليوم العالمي للمرأة ===== */
-        .womens-day-modal .modal-content {
+  /*      .womens-day-modal .modal-content {
             background: linear-gradient(145deg, #fce4ec, #f8bbd0);
             border-right: 8px solid #c2185b;
             border: 1px solid rgba(255,255,255,0.5);
@@ -1477,7 +1465,7 @@
     </div>
 
     <!-- ===== نافذة اليوم العالمي للمرأة ===== -->
-    <div id="womens-day-modal" class="modal womens-day-modal">
+ <!--    <div id="womens-day-modal" class="modal womens-day-modal">
         <div class="modal-content">
             <span class="close-womens-day" id="close-womens-day">&times;</span>
             <div class="womens-day-decoration">
