@@ -1,38 +1,12 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <!-- نافذة تهنئة رمضان المبارك (تظهر تلقائياً عند فتح الصفحة) -->
-    <div id="ramadan-modal" class="ramadan-modal">
-        <div class="ramadan-content">
-            <span class="close-ramadan">&times;</span>
-            <div class="ramadan-decoration">
-                <i class="fas fa-star-and-crescent"></i>
-                <i class="fas fa-mosque"></i>
-                <i class="fas fa-lantern"></i>
-            </div>
-            <h2>🌙 رمضان مبارك 🌙</h2>
-            <div class="ramadan-greeting">
-                <p>
-                    بمناسبة شهر رمضان المبارك، تتقدم إدارة المؤسسة العمومية للصحة الجوارية ببريزينة بأحر التهاني والتبريكات، سائلين المولى عز وجل أن يعيده على الأمتين الإسلامية والجزائرية بالخير واليمن والبركات.<br>
-                    <span style="display: block; margin-top: 15px; font-size: 1.2rem;">كل عام وأنتم بخير</span>
-                </p>
-            </div>
-            <div class="ramadan-footer">
-                <button class="ramadan-btn" onclick="document.getElementById('ramadan-modal').style.display='none'">
-                    <i class="fas fa-check-circle"></i> إغلاق
-                </button>
-            </div>
-        </div>
-    </div>
-
-    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <title>المؤسسة العمومية للصحة الجوارية - بريزينة، البيض</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        
-        /* إعدادات عامة متجاوبة */
+        /* ===== إعدادات عامة متجاوبة ===== */
         * {
             margin: 0;
             padding: 0;
@@ -54,7 +28,7 @@
             padding: 0 15px;
         }
 
-        /* الترويسة - متجاوبة */
+        /* ===== الترويسة ===== */
         header {
             background: linear-gradient(135deg, #0d47a1, #1976d2);
             color: white;
@@ -121,7 +95,7 @@
             gap: 8px;
         }
 
-        /* شريط التنقل - متجاوب */
+        /* ===== شريط التنقل ===== */
         nav {
             background-color: #1565c0;
             position: sticky;
@@ -151,7 +125,7 @@
             color: #0d47a1;
         }
 
-        /* قسم الهيرو */
+        /* ===== قسم الهيرو ===== */
         .hero {
             background: linear-gradient(rgba(13, 71, 161, 0.85), rgba(21, 101, 192, 0.9)), url('https://images.unsplash.com/photo-1579684385127-1ef15d508118?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1480&q=80');
             background-size: cover;
@@ -174,28 +148,24 @@
             padding: 0 10px;
         }
 
-        /* بسم الله */
-        <div class="bismillah-image">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/d/d0/%D8%A7%D9%84%D8%A8%D8%B3%D9%85%D9%84%D8%A9_%2C.png" 
-         alt="بسم الله الرحمن الرحيم" 
-         style="max-width: 100%; height: auto; display: block; margin: 0 auto;">
-</div>
+        /* ===== البسملة - صورة ===== */
         .bismillah-image {
-    text-align: center;
-    margin: 20px 0;
-    padding: 10px;
-}
+            text-align: center;
+            margin: 20px 0;
+            padding: 10px;
+        }
 
-.bismillah-image img {
-    max-width: 100%;
-    height: auto;
-    width: auto; /* يحافظ على الأبعاد الأصلية */
-    max-height: 120px; /* يمكنك تعديل هذه القيمة */
-    object-fit: contain;
-    border-radius: 8px; /* اختياري: إضافة زوايا مدورة */
-}
+        .bismillah-image img {
+            max-width: 100%;
+            height: auto;
+            width: auto;
+            max-height: 100px;
+            object-fit: contain;
+            display: block;
+            margin: 0 auto;
+        }
 
-        /* ساعات العمل */
+        /* ===== ساعات العمل ===== */
         .working-hours {
             background-color: rgba(0, 0, 0, 0.6);
             border-radius: 10px;
@@ -231,7 +201,7 @@
             50% { opacity: 0.7; }
         }
 
-        /* شريط الأخبار المتحرك - ماركي يعمل من اليسار لليمين */
+        /* ===== شريط الأخبار العام (من اليسار لليمين) ===== */
         .news-ticker-container {
             background-color: rgba(0, 0, 0, 0.7);
             border-radius: 10px;
@@ -288,7 +258,7 @@
             100% { transform: scale(1); }
         }
 
-        /* شريط العاجل - تصميم خاص */
+        /* ===== شريط العاجل ===== */
         .breaking-ticker-container {
             background-color: #d32f2f;
             border-radius: 10px;
@@ -340,7 +310,7 @@
             padding: 5px 0;
         }
 
-        /* الأقسام الرئيسية */
+        /* ===== الأقسام الرئيسية ===== */
         section {
             background-color: white;
             margin: 20px 0;
@@ -366,7 +336,7 @@
             color: #1976d2;
         }
 
-        /* الخدمات - متجاوبة */
+        /* ===== الخدمات ===== */
         .services {
             display: grid;
             grid-template-columns: 1fr;
@@ -401,7 +371,7 @@
             font-size: 1.3rem;
         }
 
-        /* المصالح */
+        /* ===== المصالح ===== */
         .departments {
             display: grid;
             grid-template-columns: 1fr;
@@ -431,7 +401,7 @@
             margin: 0 auto 15px;
         }
 
-        /* معرض الصور */
+        /* ===== معرض الصور ===== */
         .gallery {
             display: grid;
             grid-template-columns: 1fr;
@@ -467,7 +437,7 @@
             text-align: center;
         }
 
-        /* الأخبار */
+        /* ===== الأخبار ===== */
         .news-container {
             display: grid;
             grid-template-columns: 1fr;
@@ -513,7 +483,7 @@
             font-size: 1.2rem;
         }
 
-        /* معلومات الاتصال */
+        /* ===== معلومات الاتصال ===== */
         .contact-info {
             display: grid;
             grid-template-columns: 1fr;
@@ -556,7 +526,7 @@
             flex-shrink: 0;
         }
 
-        /* الخريطة */
+        /* ===== الخريطة ===== */
         .map-container {
             height: 250px;
             margin-top: 20px;
@@ -565,7 +535,7 @@
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
-        /* التذييل */
+        /* ===== التذييل ===== */
         footer {
             background-color: #0d47a1;
             color: white;
@@ -625,7 +595,7 @@
             opacity: 0.8;
         }
 
-        /* زر فيسبوك العائم متجاوب */
+        /* ===== زر فيسبوك العائم ===== */
         #floating-fb-container {
             position: fixed;
             bottom: 20px;
@@ -655,7 +625,7 @@
             display: none;
         }
 
-        /* النافذة المنبثقة للمسابقات */
+        /* ===== النوافذ المنبثقة (مودالات) ===== */
         .modal {
             display: none;
             position: fixed;
@@ -828,7 +798,86 @@
             font-weight: bold;
         }
 
-        /* نافذة تهنئة رمضان */
+        /* ===== نافذة لجنة الخدمات الاجتماعية ===== */
+        .social-services-modal .modal-content {
+            border-right: 8px solid #2e7d32;
+        }
+
+        .social-services-modal h2 {
+            color: #2e7d32;
+        }
+
+        .social-services-modal h2 i {
+            color: #4caf50;
+        }
+
+        .services-section {
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .services-section:last-child {
+            border-bottom: none;
+        }
+
+        .services-section h3 {
+            color: #2e7d32;
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .services-section h3 i {
+            color: #4caf50;
+        }
+
+        .services-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .services-list li {
+            margin-bottom: 15px;
+            padding: 10px 15px;
+            background-color: #f1f8e9;
+            border-radius: 8px;
+            border-right: 4px solid #66bb6a;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .services-list li i {
+            color: #2e7d32;
+            font-size: 1.2rem;
+        }
+
+        .pdf-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background-color: #2e7d32;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background 0.3s;
+            margin-top: 5px;
+        }
+
+        .pdf-link:hover {
+            background-color: #1b5e20;
+        }
+
+        .pdf-link i {
+            color: white;
+        }
+
+        /* ===== نافذة تهنئة رمضان ===== */
         .ramadan-modal {
             display: none;
             position: fixed;
@@ -959,7 +1008,7 @@
             transform: scale(1.05);
         }
 
-        /* تحسينات إضافية للشاشات الصغيرة */
+        /* ===== تحسينات للشاشات الصغيرة ===== */
         @media (max-width: 768px) {
             .modal-content {
                 margin: 20px auto;
@@ -999,6 +1048,10 @@
 
             .ramadan-decoration i {
                 font-size: 2.2rem;
+            }
+
+            .services-section h3 {
+                font-size: 1.2rem;
             }
         }
 
@@ -1046,7 +1099,7 @@
             }
         }
 
-        /* للشاشات المتوسطة (أكبر من الجوال) */
+        /* ===== للشاشات المتوسطة والكبيرة ===== */
         @media (min-width: 768px) {
             .services {
                 grid-template-columns: repeat(2, 1fr);
@@ -1101,14 +1154,12 @@
     </style>
 </head>
 <body>
-    <!-- الترويسة -->
+    <!-- ===== الترويسة ===== -->
     <header>
         <div class="container header-top">
             <div class="logo-container">
                 <div class="logo">
-                   <img src="https://sehatydz.org/wp-content/uploads/2024/08/logo-ministere-de-la-sante-algerie-1024x952.png" alt="شعار المؤسسة">
-
-               <!--       <img src="https://scontent.floo1-1.fna.fbcdn.net/v/t39.30808-6/489628981_122156280002449358_8994427437675053102_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=qm-teTjHX6UQ7kNvwGhpT5u&_nc_oc=AdnAR-8R1K_ADD9EtNkfWIb0mdIY6og6wuc7m_5ZP2E2v3NEyfa_8uXM61I1z-LjeV4&_nc_zt=23&_nc_ht=scontent.floo1-1.fna&_nc_gid=gH3X-Y3n5zyQTfHVbqOCRA&oh=00_AfuV70lBphVHneD6NczCYopP_M3OKbzYcMtkJ_E4m6q7rA&oe=69917226" alt="شعار المؤسسة">   -->
+                    <img src="https://sehatydz.org/wp-content/uploads/2024/08/logo-ministere-de-la-sante-algerie-1024x952.png" alt="شعار المؤسسة">
                 </div>
                 <div>
                     <div class="institution-name">المؤسسة العمومية للصحة الجوارية</div>
@@ -1123,7 +1174,7 @@
         </div>
     </header>
 
-    <!-- شريط التنقل مع زر المسابقات -->
+    <!-- ===== شريط التنقل ===== -->
     <nav>
         <div class="container nav-container">
             <a href="#home"><i class="fas fa-home"></i> الرئيسية</a>
@@ -1132,14 +1183,18 @@
             <a href="#gallery"><i class="fas fa-images"></i> معرض الصور</a>
             <a href="#news"><i class="fas fa-newspaper"></i> الأخبار</a>
             <a href="#competitions" id="competitions-btn"><i class="fas fa-trophy"></i> المسابقات</a>
+            <a href="#social-services" id="social-services-btn"><i class="fas fa-hand-holding-heart"></i> لجنة الخدمات</a>
             <a href="#contact"><i class="fas fa-address-book"></i> الاتصال</a>
         </div>
     </nav>
 
-    <!-- قسم الهيرو -->
+    <!-- ===== قسم الهيرو ===== -->
     <section id="home" class="hero">
         <div class="container">
-            <div class="bismillah">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
+            <!-- البسملة - صورة -->
+            <div class="bismillah-image">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/d/d0/%D8%A7%D9%84%D8%A8%D8%B3%D9%85%D9%84%D8%A9_%2C.png" alt="بسم الله الرحمن الرحيم">
+            </div>
             <h1>المؤسسة العمومية للصحة الجوارية - بريزينة</h1>
             <p>نقدم لكم أفضل الخدمات الصحية والعلاجية بأعلى معايير الجودة والكفاءة الطبية. نحن هنا لرعايتكم وضمان صحتكم وسعادتكم في بلدية بريزينة، ولاية البيض.</p>
 
@@ -1150,7 +1205,7 @@
                 <div class="hours-badge">مفتوح 24/24 - 7/7</div>
             </div>
 
-            <!-- شريط الأخبار المتحرك (عام) -->
+            <!-- شريط الأخبار العام -->
             <div class="news-ticker-container">
                 <div class="news-ticker-header">
                     <div class="ticker-title">
@@ -1165,7 +1220,7 @@
                         💉 حملة تلقيح مجانية ضد الإنفلونزا الموسمية • 
                         🦷 قسم طب الأسنان مجهز بأحدث الأجهزة • 
                         👶 حملة توعوية حول صحة الأم والطفل كل يوم اثنين وأربعاء • 
-                        🔬 المخبر الطبي يعمل 24/24 للحالاات الاستعجالية • 
+                        🔬 المخبر الطبي يعمل 24/24 للحالات الاستعجالية • 
                         🚑 سيارة إسعاف مجهزة متاحة • 
                         💊 الصيدلية توفر جميع الأدوية الأساسية • 
                         📅 قاعات العلاج التابعة للمؤسسة مفتوحة يومياً • 
@@ -1178,7 +1233,7 @@
                 </div>
             </div>
 
-            <!-- شريط العاجل (أسفل الشريط العام) -->
+            <!-- شريط العاجل -->
             <div class="breaking-ticker-container">
                 <div class="breaking-header">
                     <span class="breaking-icon"><i class="fas fa-bolt"></i></span>
@@ -1188,16 +1243,13 @@
                     <marquee direction="right" behavior="scroll" scrollamount="7" onmouseover="this.stop();" onmouseout="this.start();">
                         📍 برمجت مصلحة طب العيون بالمؤسسة العمومية الاستشفائية محمد بوضياف عملياتها المتواصلة والدؤوبة لحقن الشبكية داخل الجدار الزجاجي للعين كل يوم اثنين لتكثيف النشاطات الصحية والتكفل الأنجع بالمرضى بتقنيات متقدمة تحت تأطير فريق طبي وشبه طبي لمصلحة طب العيون ومجمع العمليات، يسهرون على متابعة المريض •
                         📍 إجتماع المجلس الشعبي الولائي حول حصيلة نشاطات قطاع الصحة بولاية البيض لسنة 2025 •
-
-
                     </marquee>
                 </div>
             </div>
-
         </div>
     </section>
 
-    <!-- قسم آخر الأخبار (ثابت) -->
+    <!-- ===== قسم آخر الأخبار (ثابت) ===== -->
     <div class="container">
         <section id="news">
             <h2><i class="fas fa-newspaper"></i> آخر الأخبار</h2>
@@ -1236,7 +1288,7 @@
         </section>
     </div>
 
-    <!-- المحتوى الرئيسي -->
+    <!-- ===== المحتوى الرئيسي ===== -->
     <div class="container">
         <!-- قسم الخدمات المقدمة -->
         <section id="services">
@@ -1424,19 +1476,15 @@
         </section>
     </div>
 
-    <!-- النافذة المنبثقة للمسابقات -->
-    <div id="competitions-modal" class="modal">
+    <!-- ===== نافذة المسابقات ===== -->
+    <!--  div id="competitions-modal" class="modal">
         <div class="modal-content">
             <span class="close-modal">&times;</span>
             <h2><i class="fas fa-trophy"></i> إعلانات المسابقات</h2>
             <div class="competitions-list">
-                
-                <!-- مسابقة 1 -->
-  <!--               <div class="competition-item">
+                <div class="competition-item">
                     <div class="competition-header">
-                        <div class="competition-icon">
-                            <i class="fas fa-flask"></i>
-                        </div>
+                        <div class="competition-icon"><i class="fas fa-flask"></i></div>
                         <div class="competition-title">مسابقة التوظيف للأطباء المختصين</div>
                     </div>
                     <div class="competition-date">
@@ -1450,13 +1498,9 @@
                         <a href="#" class="competition-link"><i class="fas fa-download"></i> تحميل الإعلان</a>
                     </div>
                 </div>
-                
-                <!-- مسابقة 2 -->
-    <!--             <div class="competition-item">
+                <div class="competition-item">
                     <div class="competition-header">
-                        <div class="competition-icon">
-                            <i class="fas fa-user-nurse"></i>
-                        </div>
+                        <div class="competition-icon"><i class="fas fa-user-nurse"></i></div>
                         <div class="competition-title">مسابقة توظيف ممرضين</div>
                     </div>
                     <div class="competition-date">
@@ -1470,13 +1514,9 @@
                         <a href="#" class="competition-link"><i class="fas fa-download"></i> تحميل الإعلان</a>
                     </div>
                 </div>
-                
-                <!-- مسابقة 3 -->
-       <!--          <div class="competition-item">
+                <div class="competition-item">
                     <div class="competition-header">
-                        <div class="competition-icon">
-                            <i class="fas fa-calculator"></i>
-                        </div>
+                        <div class="competition-icon"><i class="fas fa-calculator"></i></div>
                         <div class="competition-title">مسابقة إداريين ومسيري مالية</div>
                     </div>
                     <div class="competition-date">
@@ -1490,14 +1530,117 @@
                         <a href="#" class="competition-link"><i class="fas fa-download"></i> تحميل الإعلان</a>
                     </div>
                 </div>
-                
+            </div>
+        </div>
+    </div>   -->
+
+    <!-- ===== نافذة لجنة الخدمات الاجتماعية ===== -->
+    <div id="social-services-modal" class="modal social-services-modal">
+        <div class="modal-content">
+            <span class="close-modal" id="close-social-services">&times;</span>
+            <h2><i class="fas fa-hand-holding-heart"></i> لجنة الخدمات الاجتماعية</h2>
+            
+            <!-- قسم الإعلانات -->
+            <div class="services-section">
+                <h3><i class="fas fa-bullhorn"></i> إعلانات اللجنة</h3>
+                <ul class="services-list">
+                    <li>
+                        <i class="fas fa-gift"></i>
+                        <span>منحة العودة المدرسية – سحب الاستمارات ابتداءً من 01 سبتمبر 2026</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-umbrella-beach"></i>
+                        <span>برنامج الترفيه الصيفي لأبناء الموظفين – التسجيل مفتوح حتى 20 ماي 2026</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-heart"></i>
+                        <span>مساعدة الزواج – يتم استقبال الملفات على مستوى مكتب اللجنة</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-hotel"></i>
+                        <span>حجوزات عمرة رمضان 2026 – استفسروا لدى اللجنة</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- قسم استمارات التحميل (PDF) - روابط مباشرة محدثة -->
+            <div class="services-section">
+                <h3><i class="fas fa-file-pdf"></i> استمارات التحميل (PDF)</h3>
+                <div style="display: flex; flex-direction: column; gap: 12px;">
+                    <!-- منحة التمدرس -->
+                    <a href="https://drive.google.com/uc?export=download&id=1NIyGNXIZu5CAtTYFDk8w7dZZR43rFrxK" class="pdf-link" download>
+                        <i class="fas fa-file-pdf"></i> استمارة طلب منحة التمدرس
+                    </a>
+                    <!-- المولود الجديد (نفس الرابط) -->
+                    <a href="https://drive.google.com/uc?export=download&id=1NIyGNXIZu5CAtTYFDk8w7dZZR43rFrxK" class="pdf-link" download>
+                        <i class="fas fa-file-pdf"></i> استمارة المولود الجديد
+                    </a>
+                    <!-- منحة الختان -->
+                    <a href="https://drive.google.com/uc?export=download&id=1RZlTyURTjZ1hvPYVuAvlPgybmWISI8_a" class="pdf-link" download>
+                        <i class="fas fa-file-pdf"></i> استمارة منحة الختان
+                    </a>
+                    <!-- وفاة الابن(ة) -->
+                    <a href="https://drive.google.com/uc?export=download&id=1gIaHaAObJq9EhVRYWjbsO_h2XU0LHKZ9" class="pdf-link" download>
+                        <i class="fas fa-file-pdf"></i> استمارة وفاة الابن(ة)
+                    </a>
+                    <!-- وفاة الوالد(ة) -->
+                    <a href="https://drive.google.com/uc?export=download&id=1RIf9D-N74ZJinEWY8OcRLEGz1Csp0lxx" class="pdf-link" download>
+                        <i class="fas fa-file-pdf"></i> استمارة وفاة الوالد(ة)
+                    </a>
+                    <!-- وفاة الزوج(ة) -->
+                    <a href="https://drive.google.com/uc?export=download&id=1iHmKP4Q6hQyptoXZjdq96vV6mjry48Yj" class="pdf-link" download>
+                        <i class="fas fa-file-pdf"></i> استمارة وفاة الزوج(ة)
+                    </a>
+                    <!-- منحة العمرة -->
+                    <a href="https://drive.google.com/uc?export=download&id=1JHKuW8QZT5Iu7ZMBrVoclmDMwd8yw9oN" class="pdf-link" download>
+                        <i class="fas fa-file-pdf"></i> استمارة منحة العمرة
+                    </a>
+                    <!-- منحة الزواج -->
+                    <a href="https://drive.google.com/uc?export=download&id=1N5IX09Z3pPBbjN-T_5l6tEeCLYDqN0S-" class="pdf-link" download>
+                        <i class="fas fa-file-pdf"></i> استمارة منحة الزواج
+                    </a>
+                </div>
+            </div>
+
+            <!-- قسم القانون الأساسي -->
+            <div class="services-section">
+                <h3><i class="fas fa-gavel"></i> القانون الأساسي</h3>
+                <p style="margin-bottom: 15px;">لجنة الخدمات الاجتماعية للمؤسسة العمومية للصحة الجوارية – بريزينة</p>
+                <a href="https://drive.google.com/uc?export=download&id=1iWrYa-4J8Uu5e-vJCUI0pp1mU9evneJa" class="pdf-link" style="background-color: #6a1b9a;" download>
+                    <i class="fas fa-file-pdf"></i> تحميل القانون الأساسي للجنة (PDF)
+                </a>
+                <p style="margin-top: 15px; font-size: 0.9rem; color: #555;">
+                    <i class="fas fa-info-circle"></i> القانون الأساسي يحدد مهام اللجنة، مصادر التمويل، وشروط الاستفادة من المساعدات.
+                </p>
             </div>
         </div>
     </div>
 
-    
+    <!-- ===== نافذة تهنئة رمضان ===== -->
+    <div id="ramadan-modal" class="ramadan-modal">
+        <div class="ramadan-content">
+            <span class="close-ramadan">&times;</span>
+            <div class="ramadan-decoration">
+                <i class="fas fa-star-and-crescent"></i>
+                <i class="fas fa-mosque"></i>
+                <i class="fas fa-lantern"></i>
+            </div>
+            <h2>🌙 رمضان مبارك 🌙</h2>
+            <div class="ramadan-greeting">
+                <p>
+                    بمناسبة شهر رمضان المبارك، تتقدم إدارة المؤسسة العمومية للصحة الجوارية ببريزينة بأحر التهاني والتبريكات، سائلين المولى عز وجل أن يعيده على الأمتين الإسلامية والجزائرية بالخير واليمن والبركات.<br>
+                    <span style="display: block; margin-top: 15px; font-size: 1.2rem;">كل عام وأنتم بخير</span>
+                </p>
+            </div>
+            <div class="ramadan-footer">
+                <button class="ramadan-btn" onclick="document.getElementById('ramadan-modal').style.display='none'">
+                    <i class="fas fa-check-circle"></i> إغلاق
+                </button>
+            </div>
+        </div>
+    </div>
 
-    <!-- زر فيسبوك العائم -->
+    <!-- ===== زر فيسبوك العائم ===== -->
     <div id="floating-fb-container">
         <a href="https://www.facebook.com/search/top?q=%D8%A7%D9%84%D9%85%D8%A4%D8%B3%D8%B3%D8%A9%20%D8%A7%D9%84%D8%B9%D9%85%D9%88%D9%85%D9%8A%D8%A9%20%D9%84%D9%84%D8%B5%D8%AD%D8%A9%20%D8%A7%D9%84%D8%AC%D9%88%D8%A7%D8%B1%D9%8A%D8%A9%20%D8%A8%D8%B1%D9%8A%D8%B2%D9%8A%D9%86%D8%A9" target="_blank" id="floating-fb-button" aria-label="تابعنا على فيسبوك">
             <svg viewBox="0 0 24 24" width="28" height="28">
@@ -1507,7 +1650,7 @@
         <div id="fb-preview"><p>تابعنا على فيسبوك</p></div>
     </div>
 
-    <!-- التذييل -->
+    <!-- ===== التذييل ===== -->
     <footer>
         <div class="container">
             <div class="footer-content">
@@ -1597,51 +1740,66 @@
                 });
             });
 
-            // فتح نافذة المسابقات
+            // ----- نافذة المسابقات -----
             const competitionsBtn = document.getElementById('competitions-btn');
-            const modal = document.getElementById('competitions-modal');
-            const closeBtn = document.querySelector('.close-modal');
+            const competitionsModal = document.getElementById('competitions-modal');
+            const closeCompetitions = document.querySelector('#competitions-modal .close-modal');
 
             if (competitionsBtn) {
                 competitionsBtn.addEventListener('click', function(e) {
                     e.preventDefault();
-                    modal.style.display = 'block';
+                    competitionsModal.style.display = 'block';
                 });
             }
 
-            if (closeBtn) {
-                closeBtn.addEventListener('click', function() {
-                    modal.style.display = 'none';
+            if (closeCompetitions) {
+                closeCompetitions.addEventListener('click', function() {
+                    competitionsModal.style.display = 'none';
                 });
             }
 
-            // إغلاق نافذة المسابقات عند النقر خارج المحتوى
-            window.addEventListener('click', function(event) {
-                if (event.target === modal) {
-                    modal.style.display = 'none';
-                }
-            });
+            // ----- نافذة لجنة الخدمات الاجتماعية -----
+            const socialBtn = document.getElementById('social-services-btn');
+            const socialModal = document.getElementById('social-services-modal');
+            const closeSocial = document.getElementById('close-social-services');
 
-            // ---- نافذة رمضان ----
+            if (socialBtn) {
+                socialBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    socialModal.style.display = 'block';
+                });
+            }
+
+            if (closeSocial) {
+                closeSocial.addEventListener('click', function() {
+                    socialModal.style.display = 'none';
+                });
+            }
+
+            // ----- نافذة رمضان -----
             const ramadanModal = document.getElementById('ramadan-modal');
             const closeRamadan = document.querySelector('.close-ramadan');
 
-            // عرض النافذة تلقائياً بعد تحميل الصفحة (مع تأخير بسيط)
             if (ramadanModal) {
                 setTimeout(function() {
                     ramadanModal.style.display = 'block';
                 }, 500);
             }
 
-            // إغلاق نافذة رمضان عند النقر على زر الإغلاق
             if (closeRamadan) {
                 closeRamadan.addEventListener('click', function() {
                     ramadanModal.style.display = 'none';
                 });
             }
 
-            // إغلاق نافذة رمضان عند النقر خارج المحتوى
+            // إغلاق النوافذ عند النقر خارج المحتوى
             window.addEventListener('click', function(event) {
+                if (event.target === competitionsModal) {
+                    competitionsModal.style.display = 'none';
+                }
+                if (event.target === socialModal) {
+                    socialModal.style.display = 'none';
+                }
                 if (event.target === ramadanModal) {
                     ramadanModal.style.display = 'none';
                 }
