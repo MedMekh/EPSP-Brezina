@@ -1333,7 +1333,7 @@
 
     <script>
         // -------------------------------------------------------------
-        //                     جافا سكريبت كامل ومُصحح
+        //                     جافا سكريبت كامل مع localStorage
         // -------------------------------------------------------------
 
         // 1. الترجمة (مختصرة للعرض)
@@ -1360,21 +1360,47 @@
             document.querySelector(`.lang-btn[data-lang="${lang}"]`).classList.add('active');
         }
 
-        // ========== 2. بيانات الموقع ==========
-        let newsItems = [], breakingItems = [], departments = [], galleryItems = [], socialAnnouncements = [], competitions = [], services = [], staticNews = [];
-        let doctorsSchedule = [], paramedicsSchedule = [], adminSchedule = [], driversSchedule = [], labSchedule = [], radiologySchedule = [];
+        // ========== 2. بيانات الموقع (مع دعم localStorage) ==========
+        let newsItems = [];
+        let breakingItems = [];
+        let departments = [];
+        let galleryItems = [];
+        let socialAnnouncements = [];
+        let competitions = [];
+        let services = [];
+        let staticNews = [];
+        let doctorsSchedule = [];
+        let paramedicsSchedule = [];
+        let adminSchedule = [];
+        let driversSchedule = [];
+        let labSchedule = [];
+        let radiologySchedule = [];
 
-        // ========== 3. تهيئة البيانات ==========
-        function initNews() {
-            let m = document.getElementById('news-marquee');
-            if (m) newsItems = m.innerHTML.split('•').map(s=>s.trim()).filter(s=>s);
+        // القيم الافتراضية
+        function getDefaultNews() {
+            return [
+                "🏥 المؤسسة تعمل على مدار الساعة طوال أيام الأسبوع لخدمتكم",
+                "💉 حملة تلقيح مجانية ضد الإنفلونزا الموسمية",
+                "🦷 قسم طب الأسنان مجهز بأحدث الأجهزة",
+                "👶 حملة توعوية حول صحة الأم والطفل كل يوم اثنين وأربعاء",
+                "🔬 المخبر الطبي يعمل 24/24 للحالات الاستعجالية",
+                "🚑 سيارة إسعاف مجهزة متاحة",
+                "💊 الصيدلية توفر جميع الأدوية الأساسية",
+                "📅 قاعات العلاج التابعة للمؤسسة مفتوحة يومياً على مدار الأسبوع",
+                "👨‍⚕️ كوادر طبية متخصصة على أعلى مستوى",
+                "🏛️ المؤسسة مجهزة بأحدث التقنيات الطبية"
+            ];
         }
-        function initBreaking() {
-            let m = document.getElementById('breaking-marquee');
-            if (m) breakingItems = m.innerHTML.split('•').map(s=>s.trim()).filter(s=>s);
+
+        function getDefaultBreaking() {
+            return [
+                "📍 برمجت مصلحة طب العيون بالمؤسسة العمومية الاستشفائية محمد بوضياف عملياتها المتواصلة والدؤوبة لحقن الشبكية داخل الجدار الزجاجي للعين كل يوم اثنين لتكثيف النشاطات الصحية والتكفل الأنجع بالمرضى بتقنيات متقدمة تحت تأطير فريق طبي وشبه طبي لمصلحة طب العيون ومجمع العمليات، يسهرون على متابعة المريض",
+                "📍 إجتماع المجلس الشعبي الولائي حول حصيلة نشاطات قطاع الصحة بولاية البيض لسنة 2025"
+            ];
         }
-        function initDepartments() {
-            departments = [
+
+        function getDefaultDepartments() {
+            return [
                 { icon: 'fa-stethoscope', title: 'قسم العيادات الخارجية', desc: 'تشخيص وعلاج الحالات المرضية المختلفة' },
                 { icon: 'fa-vial', title: 'المخبر الطبي', desc: 'إجراء التحاليل والفحوصات المخبرية' },
                 { icon: 'fa-x-ray', title: 'قسم الأشعة', desc: 'التصوير الشعاعي والتشخيص بالصور' },
@@ -1384,10 +1410,10 @@
                 { icon: 'fa-teeth', title: 'طب الأسنان', desc: 'العناية بصحة الفم والأسنان' },
                 { icon: 'fa-user-injured', title: 'قسم الطوارئ', desc: 'استقبال الحالات الطارئة على مدار الساعة' }
             ];
-            updateDepartmentsDOM();
         }
-        function initGallery() {
-            galleryItems = [
+
+        function getDefaultGallery() {
+            return [
                 { img: 'https://scontent.floo1-1.fna.fbcdn.net/v/t39.30808-6/565125696_122186093894449358_5382121336317049005_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=833d8c&_nc_ohc=X_bgM_lm4YQ7kNvwF2uV4w&_nc_oc=AdnNVm4q7yWNRMA4shoah_hDJIeFFqHTWW2hhzZfEgHpxCXQxpUKgpYVcRsncriNNao&_nc_zt=23&_nc_ht=scontent.floo1-1.fna&_nc_gid=yNqDjmvhZxfC0XaRtRlCzQ&oh=00_Afvd0bx8u2v06l9TiflyZsm3tGV3M10ITCu1AMCRfT--uQ&oe=6991262D', caption: 'المؤسسة العمومية للصحة الجوارية ببريزينة' },
                 { img: 'https://scontent.floo1-2.fna.fbcdn.net/v/t39.30808-6/554272273_122183254010449358_7825660030526873472_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=127cfc&_nc_ohc=CPjnfHE50zYQ7kNvwGet6Qe&_nc_oc=Adl58sjFsXXfVShvuW9c-qtkLG9Lmq5GFsl43Ituo8T5W0Sk-AQZcfToh3r8RWr1PkY&_nc_zt=23&_nc_ht=scontent.floo1-2.fna&_nc_gid=t-B8fakyVY7-0U-5vRCcIQ&oh=00_AfvLE9fm3kyeZSBSrGc-r6iWxOCCtCoiWJRWKkasHeWt5A&oe=69912704', caption: 'قسم استقبال المرضى والرعاية الأولية' },
                 { img: 'https://scontent.floo1-1.fna.fbcdn.net/v/t39.30808-6/516450613_122170631942449358_1933881856270391935_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=127cfc&_nc_ohc=s-qeOqOoJfQQ7kNvwG_7zYM&_nc_oc=Adl_UfYdGk59QxFvU8juikw4kP6LDKr4NgQvTW85MUvapo-CxWWxU6c5lu0_DXeFx5s&_nc_zt=23&_nc_ht=scontent.floo1-1.fna&_nc_gid=_ndG18uxCtSvfAw0C4gN0w&oh=00_Afs-RgXC7cswksmVHdKYadwZj8xU00JnXc6EVXD0Nh-O2g&oe=69915C88', caption: 'المخبر الطبي المجهز بأحدث التقنيات' },
@@ -1395,27 +1421,27 @@
                 { img: 'https://www.elitihadcom.dz/wp-content/uploads/2021/04/2020-04-0113_52_16.393462-bba.jpg', caption: 'الأجهزة الطبية الحديثة للتشخيص الدقيق' },
                 { img: 'https://scontent.floo1-1.fna.fbcdn.net/v/t39.30808-6/550095945_122182983212449358_3524932597151696087_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=833d8c&_nc_ohc=Jnb6PngtbG0Q7kNvwEAyBxa&_nc_oc=Adkn2EVx5jvJsBcz7F2vXuW4BTjgM0ErInRqgD18JRD46Jy443G392rboge3lhIKYXw&_nc_zt=23&_nc_ht=scontent.floo1-1.fna&_nc_gid=MchHKxqyf_ZWqWVj6PBKSQ&oh=00_AfuEcH9BjCMi5CqomST_Im7PVesqkrhsA6IXmQqOUh-AJQ&oe=69913190', caption: 'الكادر الطبي في المؤسسة' }
             ];
-            updateGalleryDOM();
         }
-        function initSocial() {
-            socialAnnouncements = [
+
+        function getDefaultSocial() {
+            return [
                 'منحة العودة المدرسية',
                 'برنامج الترفيه الصيفي لأبناء الموظفين',
                 'منحة الزواج – يتم استقبال الملفات على مستوى مكتب اللجنة',
                 'منحة العمرة رمضان 2026 – استفسروا لدى اللجنة'
             ];
-            updateSocialDOM();
         }
-        function initCompetitions() {
-            competitions = [
+
+        function getDefaultCompetitions() {
+            return [
                 { title: 'مسابقة التوظيف للأطباء المختصين', date: '2026-03-30', desc: 'تعلن المؤسسة عن فتح مسابقة توظيف للأطباء المختصين في عدة تخصصات.' },
                 { title: 'مسابقة توظيف ممرضين', date: '2026-04-15', desc: 'تعلن المؤسسة عن حاجتها لممرضين حاصلين على شهادة الدولة في التمريض.' },
                 { title: 'مسابقة إداريين ومسيري مالية', date: '2026-05-10', desc: 'فتح مسابقة للالتحاق برتب إداري ومسير مالي.' }
             ];
-            updateCompetitionsDOM();
         }
-        function initServices() {
-            services = [
+
+        function getDefaultServices() {
+            return [
                 { icon: 'fa-user-md', title: 'الرعاية الطبية', desc: 'توفير الرعاية الطبية الأولية والتشخيص المبكر للأمراض مع متابعة الحالات الصحية المزمنة.' },
                 { icon: 'fa-baby', title: 'رعاية الأم والطفل', desc: 'متابعة الحمل والولادة وتقديم خدمات التطعيم والرعاية الصحية للأمهات والأطفال.' },
                 { icon: 'fa-syringe', title: 'التلقيح والتحصين', desc: 'تقديم جميع أنواع اللقاحات للأطفال والكبار ضمن البرنامج الوطني للتحصين.' },
@@ -1423,10 +1449,10 @@
                 { icon: 'fa-pills', title: 'الصيدلية والمستلزمات', desc: 'توفير الأدوية والمستلزمات الطبية الأساسية.' },
                 { icon: 'fa-ambulance', title: 'الطوارئ والإسعاف', desc: 'خدمة الطوارئ الطبية على مدار الساعة لنقل الحالات الحرجة للمستشفيات المتخصصة.' }
             ];
-            updateServicesDOM();
         }
-        function initStaticNews() {
-            staticNews = [
+
+        function getDefaultStaticNews() {
+            return [
                 { 
                     img: 'https://scontent.floo1-2.fna.fbcdn.net/v/t39.30808-6/522716611_122173486142449358_7472302259190827812_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=833d8c&_nc_ohc=MKEyGjvcUAoQ7kNvwFFFRxC&_nc_oc=AdlBAiXoO7dCfKzRcJ_XV4wUEjwhc3oWeBzUXSxrukiRZS9pjUHAaJ_ZiG5PNOpBsiI&_nc_zt=23&_nc_ht=scontent.floo1-2.fna&_nc_gid=nwY7tnPrmBd76Iwk8THKiA&oh=00_AfuIdPfcPbxNKHagE-ULihZXSETjyaEVuy3RUpxfBweukg&oe=6991464D', 
                     date: '10 فيفري 2026', 
@@ -1449,10 +1475,10 @@
                     fullContent: 'نظمت المؤسسة بالتعاون مع خبراء من وزارة الصحة دورة تدريبية مكثفة حول البروتوكولات العلاجية الجديدة في مجال الطوارئ والعناية المركزة. استفاد من الدورة 40 من الكوادر الطبية وشبه الطبية، وتضمنت ورش عمل تطبيقية ومحاضرات نظرية حول التعامل مع الحالات الحرجة وإدارة الألم وتقنيات الإنعاش المتقدمة.'
                 }
             ];
-            updateStaticNewsDOM();
         }
-        function initSchedules() {
-            doctorsSchedule = [
+
+        function getDefaultDoctors() {
+            return [
                 { day: 'الأحد', date: '2026-03-01', doctor: 'د. قاوع. ك' },
                 { day: 'الاثنين', date: '2026-03-02', doctor: 'د. رفراف. ب' },
                 { day: 'الثلاثاء', date: '2026-03-03', doctor: 'د. خليفي. ع' },
@@ -1461,23 +1487,34 @@
                 { day: 'الجمعة', date: '2026-03-06', doctor: 'د. قاوع. ك' },
                 { day: 'السبت', date: '2026-03-07', doctor: 'د. رفراف. ب' }
             ];
-            paramedicsSchedule = [];
+        }
+
+        function getDefaultParamedics() {
+            let arr = [];
             for (let i = 1; i <= 7; i++) {
                 let date = new Date(2026, 2, i);
                 let day = date.toLocaleDateString('ar-EG', { weekday: 'long' });
                 let team = (i % 2 === 0) ? 'قاسمي. ب + فاردي. و' : 'نعيمة.م + قويدري. ف';
-                paramedicsSchedule.push({ day, date: date.toISOString().split('T')[0], team });
+                arr.push({ day, date: date.toISOString().split('T')[0], team });
             }
+            return arr;
+        }
+
+        function getDefaultAdmin() {
             let adminNames = ['تناح عبد القادر', 'بوعيشي سعيد', 'بن شيحة محمد', 'نعيمة محمد'];
             let adminRanks = ['ممرض شهادة دولة', 'مساعد تمريض رئيسي', 'ممرض شهادة دولة', 'عون تخدير'];
-            adminSchedule = [];
+            let arr = [];
             for (let i = 1; i <= 7; i++) {
                 let date = new Date(2026, 2, i);
                 let day = date.toLocaleDateString('ar-EG', { weekday: 'long' });
                 let idx = (i-1) % 4;
-                adminSchedule.push({ day, date: date.toISOString().split('T')[0], name: adminNames[idx], rank: adminRanks[idx] });
+                arr.push({ day, date: date.toISOString().split('T')[0], name: adminNames[idx], rank: adminRanks[idx] });
             }
-            driversSchedule = [
+            return arr;
+        }
+
+        function getDefaultDrivers() {
+            return [
                 { day: 'الأحد', date: '2026-03-01', name: 'بن يوسف. ع' },
                 { day: 'الاثنين', date: '2026-03-02', name: 'زواني. م' },
                 { day: 'الثلاثاء', date: '2026-03-03', name: 'سعيدي. ع' },
@@ -1486,7 +1523,10 @@
                 { day: 'الجمعة', date: '2026-03-06', name: 'سعيدي. ع' },
                 { day: 'السبت', date: '2026-03-07', name: 'بن يوسف. ع' }
             ];
-            labSchedule = [
+        }
+
+        function getDefaultLab() {
+            return [
                 { day: 'الأحد', date: '2026-03-01', name: 'مختار. ن' },
                 { day: 'الاثنين', date: '2026-03-02', name: 'حمزة. ر' },
                 { day: 'الثلاثاء', date: '2026-03-03', name: 'شعبان. م' },
@@ -1495,7 +1535,10 @@
                 { day: 'الجمعة', date: '2026-03-06', name: 'شعبان. م' },
                 { day: 'السبت', date: '2026-03-07', name: 'مختار. ن' }
             ];
-            radiologySchedule = [
+        }
+
+        function getDefaultRadiology() {
+            return [
                 { day: 'الأحد', date: '2026-03-01', name: 'د. عبدلي. ك' },
                 { day: 'الاثنين', date: '2026-03-02', name: 'د. معمري. ح' },
                 { day: 'الثلاثاء', date: '2026-03-03', name: 'د. عبدلي. ك' },
@@ -1504,7 +1547,75 @@
                 { day: 'الجمعة', date: '2026-03-06', name: 'د. معمري. ح' },
                 { day: 'السبت', date: '2026-03-07', name: 'د. عبدلي. ك' }
             ];
-            renderAllScheduleTables();
+        }
+
+        // ========== 3. دوال التخزين المحلي ==========
+        const STORAGE_KEY = 'health_eps_data';
+
+        function saveAllToStorage() {
+            const data = {
+                newsItems,
+                breakingItems,
+                departments,
+                galleryItems,
+                socialAnnouncements,
+                competitions,
+                services,
+                staticNews,
+                doctorsSchedule,
+                paramedicsSchedule,
+                adminSchedule,
+                driversSchedule,
+                labSchedule,
+                radiologySchedule
+            };
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+        }
+
+        function loadAllFromStorage() {
+            const stored = localStorage.getItem(STORAGE_KEY);
+            if (stored) {
+                try {
+                    const data = JSON.parse(stored);
+                    newsItems = data.newsItems || getDefaultNews();
+                    breakingItems = data.breakingItems || getDefaultBreaking();
+                    departments = data.departments || getDefaultDepartments();
+                    galleryItems = data.galleryItems || getDefaultGallery();
+                    socialAnnouncements = data.socialAnnouncements || getDefaultSocial();
+                    competitions = data.competitions || getDefaultCompetitions();
+                    services = data.services || getDefaultServices();
+                    staticNews = data.staticNews || getDefaultStaticNews();
+                    doctorsSchedule = data.doctorsSchedule || getDefaultDoctors();
+                    paramedicsSchedule = data.paramedicsSchedule || getDefaultParamedics();
+                    adminSchedule = data.adminSchedule || getDefaultAdmin();
+                    driversSchedule = data.driversSchedule || getDefaultDrivers();
+                    labSchedule = data.labSchedule || getDefaultLab();
+                    radiologySchedule = data.radiologySchedule || getDefaultRadiology();
+                } catch (e) {
+                    console.error('خطأ في قراءة التخزين المحلي', e);
+                    resetToDefaults();
+                }
+            } else {
+                resetToDefaults();
+            }
+        }
+
+        function resetToDefaults() {
+            newsItems = getDefaultNews();
+            breakingItems = getDefaultBreaking();
+            departments = getDefaultDepartments();
+            galleryItems = getDefaultGallery();
+            socialAnnouncements = getDefaultSocial();
+            competitions = getDefaultCompetitions();
+            services = getDefaultServices();
+            staticNews = getDefaultStaticNews();
+            doctorsSchedule = getDefaultDoctors();
+            paramedicsSchedule = getDefaultParamedics();
+            adminSchedule = getDefaultAdmin();
+            driversSchedule = getDefaultDrivers();
+            labSchedule = getDefaultLab();
+            radiologySchedule = getDefaultRadiology();
+            saveAllToStorage();
         }
 
         // ========== 4. تحديث DOM ==========
@@ -1512,10 +1623,12 @@
             let m = document.getElementById('news-marquee');
             if (m) m.innerHTML = newsItems.join(' • ');
         }
+
         function updateBreakingMarquee() {
             let m = document.getElementById('breaking-marquee');
             if (m) m.innerHTML = breakingItems.join(' • ');
         }
+
         function updateDepartmentsDOM() {
             let c = document.getElementById('departments-container');
             if (c) {
@@ -1576,10 +1689,12 @@
                 track.style.transition = "transform 0.6s cubic-bezier(.77,0,.18,1)";
             }, 50);
         }
+
         function updateSocialDOM() {
             let l = document.getElementById('social-announcements-list');
             if (l) l.innerHTML = socialAnnouncements.map(a => `<li><i class="fas fa-bullhorn"></i> ${a}</li>`).join('');
         }
+
         function updateCompetitionsDOM() {
             let c = document.getElementById('competitions-list-container');
             if (c) {
@@ -1590,10 +1705,12 @@
                 }).join('');
             }
         }
+
         function updateServicesDOM() {
             let c = document.getElementById('services-container');
             if (c) c.innerHTML = services.map(s => `<div class="service-card"><div class="service-icon"><i class="fas ${s.icon}"></i></div><h3>${s.title}</h3><p>${s.desc}</p></div>`).join('');
         }
+
         function updateStaticNewsDOM() {
             let c = document.getElementById('news-container');
             if (c) {
@@ -1651,6 +1768,7 @@
             html += '</tbody></table>';
             div.innerHTML = html;
         }
+
         function renderParamedicsTable() {
             let div = document.getElementById('paramedics-table');
             if (!div) return;
@@ -1659,6 +1777,7 @@
             html += '</tbody></table>';
             div.innerHTML = html;
         }
+
         function renderAdminTable() {
             let div = document.getElementById('admin-table');
             if (!div) return;
@@ -1667,6 +1786,7 @@
             html += '</tbody></table>';
             div.innerHTML = html;
         }
+
         function renderDriversTable() {
             let div = document.getElementById('drivers-table');
             if (!div) return;
@@ -1679,6 +1799,7 @@
                 div.innerHTML = html;
             }
         }
+
         function renderLabTable() {
             let div = document.getElementById('lab-table');
             if (!div) return;
@@ -1691,6 +1812,7 @@
                 div.innerHTML = html;
             }
         }
+
         function renderRadiologyTable() {
             let div = document.getElementById('radiology-table');
             if (!div) return;
@@ -1703,6 +1825,7 @@
                 div.innerHTML = html;
             }
         }
+
         function renderAllScheduleTables() {
             renderDoctorsTable(); renderParamedicsTable(); renderAdminTable(); renderDriversTable(); renderLabTable(); renderRadiologyTable();
         }
@@ -1780,14 +1903,16 @@
             let list = document.getElementById('news-list');
             if (!list) return;
             list.innerHTML = newsItems.map((item,i)=>`<div class="admin-list-item"><span>${item}</span><button class="delete-btn" data-news-index="${i}"><i class="fas fa-trash"></i> حذف</button></div>`).join('');
-            document.querySelectorAll('[data-news-index]').forEach(btn=>btn.onclick=()=>{newsItems.splice(parseInt(btn.dataset.newsIndex),1); renderNewsList();});
+            document.querySelectorAll('[data-news-index]').forEach(btn=>btn.onclick=()=>{newsItems.splice(parseInt(btn.dataset.newsIndex),1); renderNewsList(); saveAllToStorage();});
         }
+
         function renderBreakingList() {
             let list = document.getElementById('breaking-list');
             if (!list) return;
             list.innerHTML = breakingItems.map((item,i)=>`<div class="admin-list-item"><span>${item}</span><button class="delete-btn" data-breaking-index="${i}"><i class="fas fa-trash"></i> حذف</button></div>`).join('');
-            document.querySelectorAll('[data-breaking-index]').forEach(btn=>btn.onclick=()=>{breakingItems.splice(parseInt(btn.dataset.breakingIndex),1); renderBreakingList();});
+            document.querySelectorAll('[data-breaking-index]').forEach(btn=>btn.onclick=()=>{breakingItems.splice(parseInt(btn.dataset.breakingIndex),1); renderBreakingList(); saveAllToStorage();});
         }
+
         function renderStaticNewsList() {
             let list = document.getElementById('static-news-list');
             if (!list) return;
@@ -1804,7 +1929,7 @@
                         <button class="delete-btn" data-static-index="${i}"><i class="fas fa-trash"></i> حذف</button>
                     </div>
                 </div>`).join('');
-            document.querySelectorAll('[data-static-index]').forEach(btn=>btn.onclick=()=>{staticNews.splice(parseInt(btn.dataset.staticIndex),1); renderStaticNewsList();});
+            document.querySelectorAll('[data-static-index]').forEach(btn=>btn.onclick=()=>{staticNews.splice(parseInt(btn.dataset.staticIndex),1); renderStaticNewsList(); saveAllToStorage();});
         }
 
         function renderDeptsTab() { 
@@ -1815,7 +1940,7 @@
                 <button id="update-depts" class="update-btn"><i class="fas fa-sync-alt"></i> تحديث المصالح</button>`;
             let list = document.getElementById('depts-list');
             list.innerHTML = departments.map((d,i)=>`<div class="admin-list-item"><div><i class="fas ${d.icon}"></i> <strong>${d.title}</strong><br><small>${d.desc}</small></div><button class="delete-btn" data-dept-index="${i}"><i class="fas fa-trash"></i> حذف</button></div>`).join('');
-            document.querySelectorAll('[data-dept-index]').forEach(btn=>btn.onclick=()=>{departments.splice(parseInt(btn.dataset.deptIndex),1); renderDeptsTab();});
+            document.querySelectorAll('[data-dept-index]').forEach(btn=>btn.onclick=()=>{departments.splice(parseInt(btn.dataset.deptIndex),1); renderDeptsTab(); saveAllToStorage();});
             document.getElementById('add-dept-btn').onclick = () => {
                 let icon = document.getElementById('new-dept-icon').value.trim();
                 let title = document.getElementById('new-dept-title').value.trim();
@@ -1823,6 +1948,7 @@
                 if (icon && title && desc) { 
                     departments.push({icon,title,desc}); 
                     renderDeptsTab(); 
+                    saveAllToStorage();
                 }
             };
             document.getElementById('update-depts').onclick = () => { updateDepartmentsDOM(); alert('تم تحديث المصالح'); };
@@ -1856,6 +1982,7 @@
                     let i = parseInt(btn.dataset.galleryIndex);
                     galleryItems.splice(i, 1);
                     renderGalleryTab();
+                    saveAllToStorage();
                 };
             });
             document.getElementById('add-gallery-btn').onclick = () => {
@@ -1866,6 +1993,7 @@
                     renderGalleryTab();
                     document.getElementById('new-gallery-img').value = '';
                     document.getElementById('new-gallery-caption').value = '';
+                    saveAllToStorage();
                 } else {
                     alert('الرجاء إدخال رابط الصورة والعنوان');
                 }
@@ -1884,10 +2012,10 @@
                 <button id="update-social" class="update-btn"><i class="fas fa-sync-alt"></i> تحديث الإعلانات</button>`;
             let list = document.getElementById('social-list');
             list.innerHTML = socialAnnouncements.map((a,i)=>`<div class="admin-list-item"><span>${a}</span><button class="delete-btn" data-social-index="${i}"><i class="fas fa-trash"></i> حذف</button></div>`).join('');
-            document.querySelectorAll('[data-social-index]').forEach(btn=>btn.onclick=()=>{socialAnnouncements.splice(parseInt(btn.dataset.socialIndex),1); renderSocialTab();});
+            document.querySelectorAll('[data-social-index]').forEach(btn=>btn.onclick=()=>{socialAnnouncements.splice(parseInt(btn.dataset.socialIndex),1); renderSocialTab(); saveAllToStorage();});
             document.getElementById('add-social-btn').onclick = () => {
                 let text = document.getElementById('new-social').value.trim();
-                if (text) { socialAnnouncements.push(text); renderSocialTab(); }
+                if (text) { socialAnnouncements.push(text); renderSocialTab(); saveAllToStorage(); }
             };
             document.getElementById('update-social').onclick = () => { updateSocialDOM(); alert('تم تحديث إعلانات اللجنة'); };
         }
@@ -1903,12 +2031,12 @@
                 let days = Math.ceil((new Date(c.date)-new Date())/(1000*60*60*24)); days = days>0?days:0;
                 return `<div class="admin-list-item"><div><strong>${c.title}</strong><br><small>${new Date(c.date).toLocaleDateString('ar-EG')} - متبقي ${days} يوم</small><br><small>${c.desc}</small></div><button class="delete-btn" data-competition-index="${i}"><i class="fas fa-trash"></i> حذف</button></div>`;
             }).join('');
-            document.querySelectorAll('[data-competition-index]').forEach(btn=>btn.onclick=()=>{competitions.splice(parseInt(btn.dataset.competitionIndex),1); renderCompetitionsTab();});
+            document.querySelectorAll('[data-competition-index]').forEach(btn=>btn.onclick=()=>{competitions.splice(parseInt(btn.dataset.competitionIndex),1); renderCompetitionsTab(); saveAllToStorage();});
             document.getElementById('add-competition-btn').onclick = () => {
                 let title = document.getElementById('new-competition-title').value.trim();
                 let date = document.getElementById('new-competition-date').value;
                 let desc = document.getElementById('new-competition-desc').value.trim();
-                if (title && date && desc) { competitions.push({title,date,desc}); renderCompetitionsTab(); }
+                if (title && date && desc) { competitions.push({title,date,desc}); renderCompetitionsTab(); saveAllToStorage(); }
             };
             document.getElementById('update-competitions').onclick = () => { updateCompetitionsDOM(); alert('تم تحديث المسابقات'); };
         }
@@ -1921,12 +2049,12 @@
                 <button id="update-services" class="update-btn"><i class="fas fa-sync-alt"></i> تحديث الخدمات</button>`;
             let list = document.getElementById('services-list');
             list.innerHTML = services.map((s,i)=>`<div class="admin-list-item"><div><i class="fas ${s.icon}"></i> <strong>${s.title}</strong><br><small>${s.desc}</small></div><button class="delete-btn" data-service-index="${i}"><i class="fas fa-trash"></i> حذف</button></div>`).join('');
-            document.querySelectorAll('[data-service-index]').forEach(btn=>btn.onclick=()=>{services.splice(parseInt(btn.dataset.serviceIndex),1); renderServicesTab();});
+            document.querySelectorAll('[data-service-index]').forEach(btn=>btn.onclick=()=>{services.splice(parseInt(btn.dataset.serviceIndex),1); renderServicesTab(); saveAllToStorage();});
             document.getElementById('add-service-btn').onclick = () => {
                 let icon = document.getElementById('new-service-icon').value.trim();
                 let title = document.getElementById('new-service-title').value.trim();
                 let desc = document.getElementById('new-service-desc').value.trim();
-                if (icon && title && desc) { services.push({icon,title,desc}); renderServicesTab(); }
+                if (icon && title && desc) { services.push({icon,title,desc}); renderServicesTab(); saveAllToStorage(); }
             };
             document.getElementById('update-services').onclick = () => { updateServicesDOM(); alert('تم تحديث الخدمات'); };
         }
@@ -1961,37 +2089,42 @@
             let list = document.getElementById('admin-doctors-list');
             if (!list) return;
             list.innerHTML = doctorsSchedule.map((r,i)=>`<div class="admin-list-item"><span>${r.day} - ${r.date} - ${r.doctor}</span><button class="delete-btn" data-doctor-index="${i}"><i class="fas fa-trash"></i></button></div>`).join('');
-            document.querySelectorAll('[data-doctor-index]').forEach(btn=>btn.onclick=()=>{doctorsSchedule.splice(parseInt(btn.dataset.doctorIndex),1); renderAdminDoctorsList();});
+            document.querySelectorAll('[data-doctor-index]').forEach(btn=>btn.onclick=()=>{doctorsSchedule.splice(parseInt(btn.dataset.doctorIndex),1); renderAdminDoctorsList(); saveAllToStorage();});
         }
+
         function renderAdminParamedicsList() {
             let list = document.getElementById('admin-paramedics-list');
             if (!list) return;
             list.innerHTML = paramedicsSchedule.map((r,i)=>`<div class="admin-list-item"><span>${r.day} - ${r.date} - ${r.team}</span><button class="delete-btn" data-param-index="${i}"><i class="fas fa-trash"></i></button></div>`).join('');
-            document.querySelectorAll('[data-param-index]').forEach(btn=>btn.onclick=()=>{paramedicsSchedule.splice(parseInt(btn.dataset.paramIndex),1); renderAdminParamedicsList();});
+            document.querySelectorAll('[data-param-index]').forEach(btn=>btn.onclick=()=>{paramedicsSchedule.splice(parseInt(btn.dataset.paramIndex),1); renderAdminParamedicsList(); saveAllToStorage();});
         }
+
         function renderAdminAdminList() {
             let list = document.getElementById('admin-admin-list');
             if (!list) return;
             list.innerHTML = adminSchedule.map((r,i)=>`<div class="admin-list-item"><span>${r.day} - ${r.date} - ${r.name} (${r.rank})</span><button class="delete-btn" data-admin-index="${i}"><i class="fas fa-trash"></i></button></div>`).join('');
-            document.querySelectorAll('[data-admin-index]').forEach(btn=>btn.onclick=()=>{adminSchedule.splice(parseInt(btn.dataset.adminIndex),1); renderAdminAdminList();});
+            document.querySelectorAll('[data-admin-index]').forEach(btn=>btn.onclick=()=>{adminSchedule.splice(parseInt(btn.dataset.adminIndex),1); renderAdminAdminList(); saveAllToStorage();});
         }
+
         function renderAdminDriversList() {
             let list = document.getElementById('admin-drivers-list');
             if (!list) return;
             list.innerHTML = driversSchedule.map((r,i)=>`<div class="admin-list-item"><span>${r.day} - ${r.date} - ${r.name}</span><button class="delete-btn" data-driver-index="${i}"><i class="fas fa-trash"></i></button></div>`).join('');
-            document.querySelectorAll('[data-driver-index]').forEach(btn=>btn.onclick=()=>{driversSchedule.splice(parseInt(btn.dataset.driverIndex),1); renderAdminDriversList();});
+            document.querySelectorAll('[data-driver-index]').forEach(btn=>btn.onclick=()=>{driversSchedule.splice(parseInt(btn.dataset.driverIndex),1); renderAdminDriversList(); saveAllToStorage();});
         }
+
         function renderAdminLabList() {
             let list = document.getElementById('admin-lab-list');
             if (!list) return;
             list.innerHTML = labSchedule.map((r,i)=>`<div class="admin-list-item"><span>${r.day} - ${r.date} - ${r.name}</span><button class="delete-btn" data-lab-index="${i}"><i class="fas fa-trash"></i></button></div>`).join('');
-            document.querySelectorAll('[data-lab-index]').forEach(btn=>btn.onclick=()=>{labSchedule.splice(parseInt(btn.dataset.labIndex),1); renderAdminLabList();});
+            document.querySelectorAll('[data-lab-index]').forEach(btn=>btn.onclick=()=>{labSchedule.splice(parseInt(btn.dataset.labIndex),1); renderAdminLabList(); saveAllToStorage();});
         }
+
         function renderAdminRadiologyList() {
             let list = document.getElementById('admin-radiology-list');
             if (!list) return;
             list.innerHTML = radiologySchedule.map((r,i)=>`<div class="admin-list-item"><span>${r.day} - ${r.date} - ${r.name}</span><button class="delete-btn" data-radio-index="${i}"><i class="fas fa-trash"></i></button></div>`).join('');
-            document.querySelectorAll('[data-radio-index]').forEach(btn=>btn.onclick=()=>{radiologySchedule.splice(parseInt(btn.dataset.radioIndex),1); renderAdminRadiologyList();});
+            document.querySelectorAll('[data-radio-index]').forEach(btn=>btn.onclick=()=>{radiologySchedule.splice(parseInt(btn.dataset.radioIndex),1); renderAdminRadiologyList(); saveAllToStorage();});
         }
 
         // ========== 8. تحميل ورفع Excel ==========
@@ -2005,6 +2138,7 @@
             XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet([['اليوم','التاريخ','الاسم']]), 'الأشعة');
             XLSX.writeFile(wb, 'نموذج_جداول_المناوبة.xlsx');
         }
+
         function handleExcelUpload(e) {
             let file = e.target.files[0];
             let reader = new FileReader();
@@ -2025,6 +2159,7 @@
                 if (sheet) { let rows = XLSX.utils.sheet_to_json(sheet, {header:1}); rows.shift(); radiologySchedule = rows.filter(r=>r.length>=3).map(r=>({day:r[0], date:r[1], name:r[2]})); }
                 renderAdminDoctorsList(); renderAdminParamedicsList(); renderAdminAdminList(); renderAdminDriversList(); renderAdminLabList(); renderAdminRadiologyList();
                 renderAllScheduleTables();
+                saveAllToStorage();
                 alert('تم تحديث جداول المناوبة بنجاح');
             };
             reader.readAsArrayBuffer(file);
@@ -2034,11 +2169,11 @@
         function bindAdminEvents() {
             document.getElementById('add-news-btn').onclick = () => {
                 let inp = document.getElementById('new-news-input');
-                if (inp.value.trim()) { newsItems.push(inp.value.trim()); inp.value = ''; renderNewsList(); }
+                if (inp.value.trim()) { newsItems.push(inp.value.trim()); inp.value = ''; renderNewsList(); saveAllToStorage(); }
             };
             document.getElementById('add-breaking-btn').onclick = () => {
                 let inp = document.getElementById('new-breaking-input');
-                if (inp.value.trim()) { breakingItems.push(inp.value.trim()); inp.value = ''; renderBreakingList(); }
+                if (inp.value.trim()) { breakingItems.push(inp.value.trim()); inp.value = ''; renderBreakingList(); saveAllToStorage(); }
             };
             document.getElementById('update-news-ticker').onclick = () => { updateNewsMarquee(); alert('تم تحديث شريط الأخبار'); };
             document.getElementById('update-breaking-ticker').onclick = () => { updateBreakingMarquee(); alert('تم تحديث شريط العاجل'); };
@@ -2056,6 +2191,7 @@
                     document.getElementById('new-static-summary').value='';
                     document.getElementById('new-static-full-content').value='';
                     renderStaticNewsList();
+                    saveAllToStorage();
                 } else alert('الرجاء ملء جميع الحقول');
             };
             document.getElementById('update-static-news').onclick = () => { updateStaticNewsDOM(); alert('تم تحديث بطاقات الأخبار'); };
@@ -2064,38 +2200,38 @@
                 let day = document.getElementById('new-doctor-day').value.trim();
                 let date = document.getElementById('new-doctor-date').value.trim();
                 let doctor = document.getElementById('new-doctor-name').value.trim();
-                if (day && date && doctor) { doctorsSchedule.push({day,date,doctor}); renderAdminDoctorsList(); document.getElementById('new-doctor-day').value=''; document.getElementById('new-doctor-date').value=''; document.getElementById('new-doctor-name').value=''; }
+                if (day && date && doctor) { doctorsSchedule.push({day,date,doctor}); renderAdminDoctorsList(); document.getElementById('new-doctor-day').value=''; document.getElementById('new-doctor-date').value=''; document.getElementById('new-doctor-name').value=''; saveAllToStorage(); }
             };
             document.getElementById('add-param-btn').onclick = () => {
                 let day = document.getElementById('new-param-day').value.trim();
                 let date = document.getElementById('new-param-date').value.trim();
                 let team = document.getElementById('new-param-team').value.trim();
-                if (day && date && team) { paramedicsSchedule.push({day,date,team}); renderAdminParamedicsList(); document.getElementById('new-param-day').value=''; document.getElementById('new-param-date').value=''; document.getElementById('new-param-team').value=''; }
+                if (day && date && team) { paramedicsSchedule.push({day,date,team}); renderAdminParamedicsList(); document.getElementById('new-param-day').value=''; document.getElementById('new-param-date').value=''; document.getElementById('new-param-team').value=''; saveAllToStorage(); }
             };
             document.getElementById('add-admin-btn').onclick = () => {
                 let day = document.getElementById('new-admin-day').value.trim();
                 let date = document.getElementById('new-admin-date').value.trim();
                 let name = document.getElementById('new-admin-name').value.trim();
                 let rank = document.getElementById('new-admin-rank').value.trim();
-                if (day && date && name && rank) { adminSchedule.push({day,date,name,rank}); renderAdminAdminList(); document.getElementById('new-admin-day').value=''; document.getElementById('new-admin-date').value=''; document.getElementById('new-admin-name').value=''; document.getElementById('new-admin-rank').value=''; }
+                if (day && date && name && rank) { adminSchedule.push({day,date,name,rank}); renderAdminAdminList(); document.getElementById('new-admin-day').value=''; document.getElementById('new-admin-date').value=''; document.getElementById('new-admin-name').value=''; document.getElementById('new-admin-rank').value=''; saveAllToStorage(); }
             };
             document.getElementById('add-driver-btn').onclick = () => {
                 let day = document.getElementById('new-driver-day').value.trim();
                 let date = document.getElementById('new-driver-date').value.trim();
                 let name = document.getElementById('new-driver-name').value.trim();
-                if (day && date && name) { driversSchedule.push({day,date,name}); renderAdminDriversList(); document.getElementById('new-driver-day').value=''; document.getElementById('new-driver-date').value=''; document.getElementById('new-driver-name').value=''; }
+                if (day && date && name) { driversSchedule.push({day,date,name}); renderAdminDriversList(); document.getElementById('new-driver-day').value=''; document.getElementById('new-driver-date').value=''; document.getElementById('new-driver-name').value=''; saveAllToStorage(); }
             };
             document.getElementById('add-lab-btn').onclick = () => {
                 let day = document.getElementById('new-lab-day').value.trim();
                 let date = document.getElementById('new-lab-date').value.trim();
                 let name = document.getElementById('new-lab-name').value.trim();
-                if (day && date && name) { labSchedule.push({day,date,name}); renderAdminLabList(); document.getElementById('new-lab-day').value=''; document.getElementById('new-lab-date').value=''; document.getElementById('new-lab-name').value=''; }
+                if (day && date && name) { labSchedule.push({day,date,name}); renderAdminLabList(); document.getElementById('new-lab-day').value=''; document.getElementById('new-lab-date').value=''; document.getElementById('new-lab-name').value=''; saveAllToStorage(); }
             };
             document.getElementById('add-radio-btn').onclick = () => {
                 let day = document.getElementById('new-radio-day').value.trim();
                 let date = document.getElementById('new-radio-date').value.trim();
                 let name = document.getElementById('new-radio-name').value.trim();
-                if (day && date && name) { radiologySchedule.push({day,date,name}); renderAdminRadiologyList(); document.getElementById('new-radio-day').value=''; document.getElementById('new-radio-date').value=''; document.getElementById('new-radio-name').value=''; }
+                if (day && date && name) { radiologySchedule.push({day,date,name}); renderAdminRadiologyList(); document.getElementById('new-radio-day').value=''; document.getElementById('new-radio-date').value=''; document.getElementById('new-radio-name').value=''; saveAllToStorage(); }
             };
             document.getElementById('update-all-schedules').onclick = () => { renderAllScheduleTables(); alert('تم تحديث جداول المناوبة في الموقع'); };
             document.getElementById('download-template-btn').onclick = downloadTemplate;
@@ -2125,7 +2261,19 @@
         loginSubmit.onclick = () => {
             if (username.value.trim() === 'Mekh' && password.value.trim() === '3205') {
                 loginModal.style.display = 'none';
-                initNews(); initBreaking(); initDepartments(); initGallery(); initSocial(); initCompetitions(); initServices(); initStaticNews(); initSchedules();
+                // تحميل البيانات من localStorage قبل عرض لوحة التحكم
+                loadAllFromStorage();
+                // تحديث جميع واجهات المستخدم
+                updateNewsMarquee();
+                updateBreakingMarquee();
+                updateDepartmentsDOM();
+                updateGalleryDOM();
+                updateSocialDOM();
+                updateCompetitionsDOM();
+                updateServicesDOM();
+                updateStaticNewsDOM();
+                renderAllScheduleTables();
+                // عرض لوحة التحكم
                 renderNewsList(); renderBreakingList(); renderStaticNewsList(); 
                 renderDeptsTab(); renderGalleryTab(); renderSocialTab(); renderCompetitionsTab(); renderServicesTab(); renderContactTab();
                 renderAdminDoctorsList(); renderAdminParamedicsList(); renderAdminAdminList(); renderAdminDriversList(); renderAdminLabList(); renderAdminRadiologyList();
@@ -2189,8 +2337,20 @@
 
         // ========== 14. تهيئة الصفحة ==========
         window.onload = function() {
+            // تحميل البيانات المحفوظة أو الافتراضية
+            loadAllFromStorage();
+            
+            // تحديث DOM
             updateDate();
-            initNews(); initBreaking(); initDepartments(); initGallery(); initSocial(); initCompetitions(); initServices(); initStaticNews(); initSchedules();
+            updateNewsMarquee();
+            updateBreakingMarquee();
+            updateDepartmentsDOM();
+            updateGalleryDOM();
+            updateSocialDOM();
+            updateCompetitionsDOM();
+            updateServicesDOM();
+            updateStaticNewsDOM();
+            renderAllScheduleTables();
             
             // ربط أحداث الكاروسيل
             let track = document.getElementById('carouselTrack');
@@ -2219,7 +2379,8 @@
                 document.getElementById(this.dataset.tab).classList.add('active');
             });
 
-            // ربط تبويبات لوحة التحكم
+            // ربط تبويبات لوحة التحكم (يتم بعد تسجيل الدخول)
+            // لنربطها هنا أيضاً تحسباً لاستخدامها لاحقاً
             let adminTabBtns = document.querySelectorAll('.admin-tab-btn');
             let adminPanes = document.querySelectorAll('.admin-tab-pane');
             adminTabBtns.forEach(btn => btn.onclick = function() {
